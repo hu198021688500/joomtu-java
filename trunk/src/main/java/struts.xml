@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.objectFactory" value="spring" />
+	<include file="struts-default.xml"></include>
+	<package name="default" extends="struts-default">
+		<action name="userInfoLogin" class="userInfoAction" method="login">
+			<result name="FAILURE">/common/failure.jsp </result>
+			<result name="SUCCESS">/common/success.jsp</result>
+		</action>
+	</package>
+</struts>
