@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table name="jt_user" catalog="joomtu" class="User"></table>
+	<table name="jt_msg_inbox" catalog="joomtu" class="MsgInbox"></table>
+	<table name="jt_user_ext" catalog="joomtu" class="UserExt"></table>
+</hibernate-reverse-engineering>

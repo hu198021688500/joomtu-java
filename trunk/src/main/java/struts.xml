@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 设置为开发模式 -->
+	<constant name="struts.devMode" value="ture" />
+	<!-- 默认的视图主题 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.objectFactory" value="spring" />
+
+	<package name="member" namespace="/member" extends="struts-default">
+		<action name="list" class="com.joomtu.bean.UserAction" method="list">
+			<result name="list">/WEB-INF/page/user.jsp</result>
+		</action>
+		<action name="register" class="com.joomtu.bean.UserAction" method="register">
+			<result name="registerUI">/WEB-INF/page/register.jsp</result>
+			<result name="registerMessage">/WEB-INF/page/message.jsp</result>
+		</action>
+		<action name="search" class="com.joomtu.bean.UserAction" method="search">
+			<result name="success">/WEB-INF/page/searchResults.jsp</result>
+		</action>
+	</package>
+
+	<package name="helloworld" namespace="/helloworld" extends="struts-default">
+		<action name="hello" class="com.joomtu.action.HelloWorldAction">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+		<action name="test" class="com.joomtu.action.HelloWorldAction" method="test">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+	</package>
+</struts>    

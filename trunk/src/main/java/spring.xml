@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    
+    http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 基于注解加扫描的方式来管理bean -->
+	<!-- <context:component-scan base-package="com.joomtu" /> -->
+
+	<!-- 数据库配置 -->
+	<!-- 定义数据源的Bean ，给Hibernate的sessionFactory-->
+	<!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/hgb"/>
+		<property name="username" value="root"/>
+		<property name="password" value=""/>
+	</bean>
+	-->
+	<!-- c3p0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<!-- <property name="driverClass" value="org.gjt.mm.mysql.Driver"/> -->
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://192.168.35.188:3306/joomtu?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="user" value="root" />
+		<property name="password" value="admin" />
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="1" />
+		<!--连接池中保留的最小连接数。-->
+		<property name="minPoolSize" value="1" />
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="300" />
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="60" />
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="5"/>
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+	</bean>
+	<!--
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+	-->
+	
+	<!-- 定义Hibernate的sessionFactory，通过该Bean，可以获得Hibernate的Session-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- <property name="mappingResources"> -->
+		<!-- <property name="classMappings"> -->
+			<!-- <list> -->
+				<!-- <value>cn/gooloog/bean/User.hbm.xml</value> -->
+				<!-- <value>com.joomtu.pojo.User</value> -->
+			<!-- </list> -->
+		<!-- </property> -->
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+				<!--设置二级缓冲-->
+				<!-- hibernate.cache.provider_class=org.hibernate.cache.EhCacheProvider -->
+				<!--设置二级缓冲，打开查询缓冲-->
+				<!-- hibernate.cache.use_query_cache=true -->
+				<!--设置显示Hibernate操作的SQL语句-->
+				<!-- hibernate.hbm2ddl.auto=update -->
+				hibernate.show_sql=ture
+				hibernate.format_sql=true
+			</value>
+		</property>
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 配置事务特性 ，配置add、delete和update开始的方法，事务传播特性为required-->       
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" />
+    		<tx:method name="delete*" propagation="REQUIRED" />
+    		<tx:method name="update*" propagation="REQUIRED" />
+    		<tx:method name="*" read-only="true" />
+    	</tx:attributes>
+    </tx:advice>
+    <!-- 配置那些类的方法进行事务管理，当前cn.com.jobedu.oa.service包中的子包、类中所有方法需要，还需要参考tx:advice的设置 -->
+    <!--
+    <aop:config>
+    	<aop:pointcut id="allManagerMethod" expression="execution (* com.wxj.example.service.*.*(..))"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+    </aop:config>
+    -->
+	<!--使用基于注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<!-- compass2.2 start -->
+	<bean id="annotationConfiguration" class="org.compass.annotations.config.CompassAnnotationsConfiguration"></bean>
+	<bean id="compass" class="org.compass.spring.LocalCompassBean">
+		<property name="resourceDirectoryLocations">
+			<list>
+				<value>classpath:com/joomtu</value>
+			</list>
+		</property>
+		<!-- anontaition式设置  -->
+		<property name="classMappings">
+			<list>
+				<value>com.joomtu.pojo.User</value>
+			</list>
+		</property>
+		<property name="connection">  
+            <value>/lucene/indexes</value>  
+        </property> 
+		<property name="compassConfiguration" ref="annotationConfiguration" />
+		<property name="compassSettings">
+			<props>
+				<prop key="compass.transaction.factory">org.compass.spring.transaction.SpringSyncTransactionFactory</prop>
+				<!-- 高亮显示配置 -->
+				<prop key="compass.engine.highlighter.default.formatter.simple.pre"><![CDATA[<b><font color='red'>]]></prop>
+				<prop key="compass.engine.highlighter.default.formatter.simple.post"><![CDATA[</font></b>]]></prop>
+				<!-- 定义索引的存储位置 -->
+				<!-- <prop key="compass.engine.connection">file://${user.home}/compass</prop> -->
+				<!-- <prop key="compass.engine.connection">/lucene/indexes</prop> -->
+				<!-- 定义分词器 -->
+				<prop key="compass.engine.analyzer.MMAnalyzer.CustomAnalyzer">net.paoding.analysis.analyzer.PaodingAnalyzer</prop>
+				<!-- <prop key="compass.engine.analyzer.MMAnalyzer.CustomAnalyzer">org.mira.lucene.analysis.IK_CAnalyzer</prop> -->
+			</props>
+		</property>
+		<property name="transactionManager" ref="txManager"/>
+	</bean>
+	<bean id="hibernateGpsDevice" class="org.compass.spring.device.hibernate.dep.SpringHibernate3GpsDevice">
+		<property name="name">
+			<value>hibernateDevice</value>
+		</property>
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="mirrorDataChanges">
+			<value>true</value>
+		</property>
+	</bean>
+	<!-- 同步更新索引 -->
+	<bean id="compassGps" class="org.compass.gps.impl.SingleCompassGps" init-method="start" destroy-method="stop">  
+		<property name="compass" ref="compass" />
+		<property name="gpsDevices">
+			<list>  
+				<!-- <ref local="hibernateGpsDevice" /> -->
+			</list>  
+		</property>
+	</bean>
+	<bean id="compassTemplate" class="org.compass.core.CompassTemplate">
+		<property name="compass" ref="compass" />
+	</bean>
+	<!-- 定时重建索引(利用quartz)或随Spring ApplicationContext启动而重建索引 -->
+	<bean id="compassIndexBuilder" class="com.joomtu.service.impl.CompassIndexBuilder" lazy-init="false">
+		<property name="compassGps" ref="compassGps" />
+		<property name="buildIndex" value="true" />
+		<property name="lazyTime" value="10" />
+	</bean>
+	<!-- compass2.2 end -->
+	
+	<bean id="UserDAO" class="com.joomtu.dao.UserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UserExtDAO" class="com.joomtu.dao.UserExtDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+</beans>
