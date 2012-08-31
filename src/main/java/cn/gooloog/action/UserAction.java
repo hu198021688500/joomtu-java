@@ -2,6 +2,8 @@ package cn.gooloog.action;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -20,6 +22,8 @@ public class UserAction {
 	@Resource
 	private UserService service;
 
+	private static Log log = LogFactory.getLog(UserAction.class);
+
 	private User user;
 
 	public User getUser() {
@@ -29,7 +33,7 @@ public class UserAction {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public String register() {
 		if (user != null) {
 			user.setPassword(MD5.MD5Encode(user.getPassword()));
@@ -50,6 +54,7 @@ public class UserAction {
 		User user = service.find(1);
 		ActionContext.getContext().put("user", user);
 		System.out.println("Email:" + user.getEmail());
+		log.debug(user.getEmail());
 		return "success";
 	}
 }
