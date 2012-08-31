@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 默认的视图主题，详细见struts.properties -->
+	<constant name="struts.ui.theme" value="simple" />
+
+	<!-- <package name="base-default" extends="struts-default" namespace="/"> -->
+		<!-- 设置拦截器 -->
+		<!-- <interceptors> -->
+			<!-- <interceptor name="userLoginInterceptor" class="com.app.interceptor.LoginInterceptor" /> -->
+			<!-- 设置拦截器栈 -->
+			<!-- <interceptor-stack name="baseInterceptor"> -->
+				<!-- <interceptor-ref name="defaultStack"></interceptor-ref> -->
+				<!-- <interceptor-ref name="userLoginInterceptor"></interceptor-ref> -->
+			<!-- </interceptor-stack> -->
+		<!-- </interceptors> -->
+		<!--设置 默认拦截器 -->
+		<!-- <default-interceptor-ref name="baseInterceptor" /> -->
+		<!--设置 拦截结果 -->
+		<!-- <global-results> -->
+			<!-- <result name="login" type="redirect">/login.jsp</result> -->
+		<!-- </global-results> -->
+	<!-- </package> -->
+
+	<package name="helloworld" namespace="/helloworld" extends="struts-default">
+		<action name="hello" class="cn.gooloog.action.HelloWorldAction">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+		<action name="test" class="cn.gooloog.action.HelloWorldAction" method="test">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+	</package>
+</struts>
