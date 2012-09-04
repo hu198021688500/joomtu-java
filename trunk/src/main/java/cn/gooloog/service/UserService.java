@@ -6,6 +6,7 @@ import cn.gooloog.bean.PageBean;
 import cn.gooloog.pojo.User;
 
 /**
+ * 用户业务
  * @author hugb
  * 
  */
@@ -14,21 +15,23 @@ public interface UserService {
 	 * 添加
 	 * 
 	 * @param user
+	 * @return boolean
 	 */
-	public void save(User user);
+	public boolean save(User user);
 
 	/**
 	 * 修改
 	 * 
 	 * @param user
+	 * @return boolean
 	 */
-	public void update(User user);
+	public boolean update(User user);
 
 	/**
 	 * 查找
 	 * 
 	 * @param id
-	 * @return
+	 * @return User
 	 */
 	public User find(int id);
 
@@ -43,7 +46,7 @@ public interface UserService {
 	 * 查找用户列表
 	 * 
 	 * @param queryString
-	 * @return
+	 * @return List
 	 */
 	public List<User> list(String queryString);
 
@@ -52,7 +55,19 @@ public interface UserService {
 	 * 
 	 * @param pageSize
 	 * @param page
-	 * @return
+	 * @return PageBean
 	 */
 	public PageBean paging(int pageSize, int page);
+	
+	/**
+	 * 用户注册
+	 * @param user
+	 * @return boolean
+	 */
+	//public boolean register(User user);
+	
+	//public boolean login();
+	
+	//public boolean logout();
+	
 }

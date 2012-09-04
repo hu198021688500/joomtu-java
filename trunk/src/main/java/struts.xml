@@ -5,6 +5,8 @@
 <struts>
 	<!-- 默认的视图主题，详细见struts.properties -->
 	<constant name="struts.ui.theme" value="simple" />
+	<!-- Convention Plugin在Action中的配置改变时，可以自动加载改变的内容而不用重新启动容器 -->
+	<constant name="struts.convention.classes.reload" value="true" />
 
 	<!-- <package name="base-default" extends="struts-default" namespace="/"> -->
 		<!-- 设置拦截器 -->

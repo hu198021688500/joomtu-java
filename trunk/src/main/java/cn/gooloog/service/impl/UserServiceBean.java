@@ -50,12 +50,14 @@ public class UserServiceBean implements UserService {
 		return query.list();
 	}
 
-	public void save(User user) {
+	public boolean save(User user) {
 		factory.getCurrentSession().persist(user);
+		return true;
 	}
 
-	public void update(User user) {
+	public boolean update(User user) {
 		factory.getCurrentSession().merge(user);
+		return true;
 	}
 
 	public PageBean paging(int pageSize, int page) {
