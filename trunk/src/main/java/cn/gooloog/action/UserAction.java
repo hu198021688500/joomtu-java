@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
 
-import cn.gooloog.pojo.User;
+import cn.gooloog.pojo.user.User;
 import cn.gooloog.service.UserService;
 import cn.gooloog.util.MD5;
 
@@ -19,10 +19,10 @@ import cn.gooloog.util.MD5;
 @Namespace("/user")
 public class UserAction {
 
+	private static Log log = LogFactory.getLog(UserAction.class);
+	
 	@Resource
 	private UserService service;
-
-	private static Log log = LogFactory.getLog(UserAction.class);
 
 	private User user;
 

@@ -25,8 +25,8 @@
 			<!-- <result name="login" type="redirect">/login.jsp</result> -->
 		<!-- </global-results> -->
 	<!-- </package> -->
-
-	<package name="helloworld" namespace="/helloworld" extends="struts-default">
+	<!-- <include file="struts-default.xml" /> -->
+	<package name="helloworld1" namespace="/helloworld1" extends="struts-default">
 		<action name="hello" class="cn.gooloog.action.HelloWorldAction">
 			<result name="success">/helloworld.jsp</result>
 		</action>

@@ -1,4 +1,4 @@
-package cn.gooloog.pojo;
+package cn.gooloog.pojo.user;
 
 // default package
 
