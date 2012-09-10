@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.gooloog.bean.PageBean;
-import cn.gooloog.pojo.User;
+import cn.gooloog.pojo.user.User;
 import cn.gooloog.service.UserService;
 
 /**

@@ -31,5 +31,23 @@
 		<property name="c3p0.timeout">1800</property>
 		<!-- 在生成数据库表的实体类 -->
 		<mapping class="cn.gooloog.pojo.User" />
+		<mapping class="cn.gooloog.pojo.JtUserRole" />
+		<mapping class="cn.gooloog.pojo.JtUserStoresExt" />
+		<mapping class="cn.gooloog.pojo.JtUserRoleRes" />
+		<mapping class="cn.gooloog.pojo.JtUserRoleAccess" />
+		<mapping class="cn.gooloog.pojo.JtUserPhoto" />
+		<mapping class="cn.gooloog.pojo.JtUserPhotoPic" />
+		<mapping class="cn.gooloog.pojo.JtUserMerchantExt" />
+		<mapping class="cn.gooloog.pojo.JtUserGrade" />
+		<mapping class="cn.gooloog.pojo.JtUserExt" />
+		<mapping class="cn.gooloog.pojo.JtMsg" />
+		<mapping class="cn.gooloog.pojo.JtMsgOutbox" />
+		<mapping class="cn.gooloog.pojo.JtMsgInbox" />
+		<mapping class="cn.gooloog.pojo.JtMenuCat" />
+		<mapping class="cn.gooloog.pojo.JtMenuAdmin" />
+		<mapping class="cn.gooloog.pojo.JtKeyValue" />
+		<mapping class="cn.gooloog.pojo.JtFriendGroup" />
+		<mapping class="cn.gooloog.pojo.JtFriendGroupRel" />
+		<mapping class="cn.gooloog.pojo.JtArea" />
 	</session-factory>
 </hibernate-configuration>

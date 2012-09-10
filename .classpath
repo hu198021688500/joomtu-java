@@ -7,6 +7,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.hibernate.MYECLIPSE_HIBERNATE_TOOLS"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SSH"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

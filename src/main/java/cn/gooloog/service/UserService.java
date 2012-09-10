@@ -3,7 +3,7 @@ package cn.gooloog.service;
 import java.util.List;
 
 import cn.gooloog.bean.PageBean;
-import cn.gooloog.pojo.User;
+import cn.gooloog.pojo.user.User;
 
 /**
  * 用户业务
