@@ -33,7 +33,7 @@ public interface UserService {
 	 * @param id
 	 * @return User
 	 */
-	public User find(int id);
+	public User find(long id);
 
 	/**
 	 * 删除

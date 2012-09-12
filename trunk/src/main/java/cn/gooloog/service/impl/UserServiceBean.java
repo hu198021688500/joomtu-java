@@ -39,7 +39,7 @@ public class UserServiceBean implements UserService {
 		}
 	}
 
-	public User find(int id) {
+	public User find(long id) {
 		return (User) factory.getCurrentSession().get(User.class, id);
 	}
 

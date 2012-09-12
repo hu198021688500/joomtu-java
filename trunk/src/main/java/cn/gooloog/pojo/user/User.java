@@ -22,7 +22,7 @@ public class User implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2326813636016117676L;
-	private Integer uid;
+	private Long uid;
 	private String email;
 	private String password;
 	private String salt;
@@ -34,7 +34,7 @@ public class User implements java.io.Serializable {
 	private String birthday;
 	private String address;
 	private Short rid;
-	private Integer nid;
+	private Long nid;
 	private Boolean status;
 	private String config;
 	private String signature;
@@ -56,7 +56,7 @@ public class User implements java.io.Serializable {
 
 	/** minimal constructor */
 	public User(String email, String password, String salt, String nickname,
-			Boolean sex, Short rid, Integer nid, Boolean status,
+			Boolean sex, Short rid, Long nid, Boolean status,
 			Integer integral, Integer regTime, Boolean loginFailTimes,
 			Integer resetPwdTime, Integer updateTime) {
 		this.email = email;
@@ -77,7 +77,7 @@ public class User implements java.io.Serializable {
 	/** full constructor */
 	public User(String email, String password, String salt, String oldPassword,
 			String nickname, Boolean sex, String avatar, String mobile,
-			String birthday, String address, Short rid, Integer nid,
+			String birthday, String address, Short rid, Long nid,
 			Boolean status, String config, String signature, Integer integral,
 			Integer regTime, String regIp, String regSource,
 			Integer lastLoginTime, String lastLoginIp, Boolean loginFailTimes,
@@ -112,11 +112,11 @@ public class User implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "uid", unique = true, nullable = false)
-	public Integer getUid() {
+	public Long getUid() {
 		return this.uid;
 	}
 
-	public void setUid(Integer uid) {
+	public void setUid(Long uid) {
 		this.uid = uid;
 	}
 
@@ -220,11 +220,11 @@ public class User implements java.io.Serializable {
 	}
 
 	@Column(name = "nid", nullable = false)
-	public Integer getNid() {
+	public Long getNid() {
 		return this.nid;
 	}
 
-	public void setNid(Integer nid) {
+	public void setNid(Long nid) {
 		this.nid = nid;
 	}
 
