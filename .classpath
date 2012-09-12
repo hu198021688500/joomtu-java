@@ -8,6 +8,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.hibernate.MYECLIPSE_HIBERNATE_TOOLS"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/COMMON"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FastDFS"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/FastDHT"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/NEO4J"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SSH"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
