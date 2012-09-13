@@ -29,27 +29,26 @@
 <body>
 	This is my JSP page.
 	<br>
-	<s:form action="member" method="POST" validate="true">
-		<tr>
-			<td colspan="2">Login</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<s:if test="hasActionErrors()">
-					<div class="errors">
-						<s:actionerror />
-					</div>
-				</s:if>
-				<s:if test="hasActionMessages()">
-					<div class="welcome">
-						<s:actionmessage/>
-					</div>
-				</s:if>
-				<s:actionerror />
-				<s:fielderror />
-			</td>
-		</tr>
-		<s:textfield name="username" label="Login name" />
+	<s:if test="hasActionErrors()">
+		<div class="errors">
+			<s:actionerror />
+		</div>
+	</s:if>
+	<br />
+	<br />
+	<s:if test="hasActionMessages()">
+		<div class="welcome">
+			<s:actionmessage/>
+		</div>
+	</s:if>
+	<br />
+	<br />
+	<s:actionerror />
+	<s:fielderror />
+	<br />
+	<br />
+	<s:form name="login_form" method="post" action="login" namespace="/user" >
+		<s:textfield name="email" label="Login name" />
 		<s:password name="password" label="Password" />
 		<s:submit value="Login" align="center" />
 	</s:form>

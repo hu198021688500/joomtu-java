@@ -6,27 +6,29 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.stereotype.Controller;
-
+import org.neo4j.rest.graphdb.entity.RestNode;
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import cn.gooloog.neo4j.Neo4jService;
 import cn.gooloog.pojo.user.User;
 import cn.gooloog.service.UserService;
-import cn.gooloog.util.MD5;
 
-@Controller
-@Namespace("/user")
-public class UserAction implements ServletRequestAware {
+public class UserAction extends ActionSupport implements ServletRequestAware {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7585120305255235862L;
 
 	private static Log log = LogFactory.getLog(UserAction.class);
 
 	@Resource
 	private UserService userService;
+
+	@Resource
+	private Neo4jService neo4jService;
 
 	private HttpServletRequest request;
 
@@ -42,41 +44,34 @@ public class UserAction implements ServletRequestAware {
 
 	@Override
 	public void setServletRequest(HttpServletRequest req) {
-		// TODO Auto-generated method stub
 		this.request = req;
 	}
 
-	public String register() {
-		if (user != null) {
-			user.setPassword(MD5.MD5Encode(user.getPassword()));
-			userService.save(user);
-			ActionContext.getContext().put("message", "保存成功");
-			return "registerMessage";
-		} else {
-			return "input";
-		}
-	}
-
-	public String login() {
-		return "success";
-	}
-
-	@Action(value = "test", results = { @Result(name = "success", location = "/helloworld.jsp") })
 	public String test() {
 		HttpServletRequest request1 = ServletActionContext.getRequest();
-		System.out.println("request1:" + request1.getParameter("uid"));
 
+		System.out.println("request1:" + request1.getParameter("uid"));
 		System.out.println("request:" + request.getParameter("uid"));
 
-		Long uid = request.getParameter("uid") == "" ? 1 : Long
-				.parseLong(request.getParameter("uid"));
-		
+		String uidStr = request.getParameter("uid");
+		Long uid = (uidStr == "" || uidStr == null) ? 1 : Long
+				.parseLong(uidStr);
+
 		User user = userService.find(uid);
-		Neo4jService neo4jService = new Neo4jService();
-		ActionContext.getContext().put("user", user);
 		System.out.println("Email:" + user.getEmail());
-		//System.out.println("neo4j Email:" + node.getProperty("email"));
+
+		RestNode node = neo4jService.getOrCreateNodeByUID(uid);
+		if (null != node) {
+			System.out.println("neo4j Email:" + node.getProperty("email"));
+		}
+
+		ActionContext.getContext().put("user", user);
+
 		log.debug(user.getEmail());
+		return "success";
+	}
+	
+	public String test1(){
 		return "success";
 	}
 }
