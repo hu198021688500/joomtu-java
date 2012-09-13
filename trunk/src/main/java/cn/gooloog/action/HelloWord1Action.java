@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /*
  @Namespace("/member")
- @ParentPackage("cn.gooloog.action")
+ @ParentPackage("user")
  @ResultPath("/WEB-INF/user")
  @Results({ @Result(name = "success", location = "/main.jsp"),
  @Result(name = "error", location = "/error.jsp") })
@@ -12,7 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
  "param1", "val1" }) })
  @InterceptorRefs({ @InterceptorRef("interceptor-1"),
  @InterceptorRef("defaultStack") })*/
-public class LoginAction extends ActionSupport {
+public class HelloWord1Action extends ActionSupport {
 	/**
 	 * 
 	 */

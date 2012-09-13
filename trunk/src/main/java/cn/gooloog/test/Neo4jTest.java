@@ -12,7 +12,7 @@ public class Neo4jTest {
 
 	@Test
 	public void test() {
-		userService.find(1).getUid().equals(new Long(1));
+		userService.find(new Long(1)).getUid().equals(new Long(1));
 		// fail("Not yet implemented");
 	}
 

@@ -8,30 +8,33 @@
 	<!-- Convention Plugin在Action中的配置改变时，可以自动加载改变的内容而不用重新启动容器 -->
 	<constant name="struts.convention.classes.reload" value="true" />
 
-	<!-- <package name="base-default" extends="struts-default" namespace="/"> -->
-		<!-- 设置拦截器 -->
-		<!-- <interceptors> -->
-			<!-- <interceptor name="userLoginInterceptor" class="com.app.interceptor.LoginInterceptor" /> -->
-			<!-- 设置拦截器栈 -->
-			<!-- <interceptor-stack name="baseInterceptor"> -->
-				<!-- <interceptor-ref name="defaultStack"></interceptor-ref> -->
-				<!-- <interceptor-ref name="userLoginInterceptor"></interceptor-ref> -->
-			<!-- </interceptor-stack> -->
-		<!-- </interceptors> -->
-		<!--设置 默认拦截器 -->
-		<!-- <default-interceptor-ref name="baseInterceptor" /> -->
-		<!--设置 拦截结果 -->
-		<!-- <global-results> -->
-			<!-- <result name="login" type="redirect">/login.jsp</result> -->
-		<!-- </global-results> -->
-	<!-- </package> -->
 	<!-- <include file="struts-default.xml" /> -->
-	<package name="helloworld1" namespace="/helloworld1" extends="struts-default">
-		<action name="hello" class="cn.gooloog.action.HelloWorldAction">
+	
+	<package name="user" namespace="/user" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="cn.gooloog.interceptor.AuthorityInterceptor" />
+			<interceptor-stack name="annotatedStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+        
+        <action name="test" class="cn.gooloog.action.UserAction" method="test">
 			<result name="success">/helloworld.jsp</result>
 		</action>
-		<action name="test" class="cn.gooloog.action.HelloWorldAction" method="test">
+		
+		<action name="test1" class="cn.gooloog.action.UserAction" method="test1">
+			<interceptor-ref name="annotatedStack" /> 
+			<result name="success">/helloworld.jsp</result>
+			<result name="login">/WEB-INF/user/login.jsp</result>
+		</action>
+        
+		<action name="hello1" class="cn.gooloog.action.HelloWorldAction">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+		<action name="hello2" class="cn.gooloog.action.HelloWorldAction" method="test">
 			<result name="success">/helloworld.jsp</result>
 		</action>
 	</package>
+	
 </struts>

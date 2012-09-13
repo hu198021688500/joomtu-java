@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.gooloog.bean.PageBean;
 import cn.gooloog.pojo.user.User;
 import cn.gooloog.service.UserService;
+import cn.gooloog.util.MD5;
 
 /**
  * 业务bean
@@ -39,7 +40,7 @@ public class UserServiceBean implements UserService {
 		}
 	}
 
-	public User find(long id) {
+	public User find(Long id) {
 		return (User) factory.getCurrentSession().get(User.class, id);
 	}
 
@@ -60,7 +61,7 @@ public class UserServiceBean implements UserService {
 		return true;
 	}
 
-	public PageBean paging(int pageSize, int page) {
+	public PageBean paging(Integer pageSize, Integer page) {
 		int rows = factory.getCurrentSession().createQuery("from User").list()
 				.size();
 		int totalPage = PageBean.countTotalPage(10, rows);
@@ -78,5 +79,26 @@ public class UserServiceBean implements UserService {
 		pageBean.setList(list);
 		pageBean.init();
 		return pageBean;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Boolean login(String email, String password, Boolean remember) {
+		email = email.trim();
+		password = password.trim();
+		Query query = factory
+				.getCurrentSession()
+				.createSQLQuery(
+						"SELECT password,salt FROM jt_user WHERE email=?")
+				.addEntity(User.class).setString(0, email);
+		List<User> users = query.list();
+		if (users.isEmpty()) {
+			return false;
+		}
+		User user = users.get(0);
+		password = MD5.MD5Encode(password + user.getSalt());
+		if (user.getPassword().equals(password)) {
+			return true;
+		}
+		return false;
 	}
 }

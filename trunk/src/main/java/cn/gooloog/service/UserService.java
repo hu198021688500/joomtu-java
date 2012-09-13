@@ -33,7 +33,7 @@ public interface UserService {
 	 * @param id
 	 * @return User
 	 */
-	public User find(long id);
+	public User find(Long id);
 
 	/**
 	 * 删除
@@ -57,7 +57,7 @@ public interface UserService {
 	 * @param page
 	 * @return PageBean
 	 */
-	public PageBean paging(int pageSize, int page);
+	public PageBean paging(Integer pageSize, Integer page);
 	
 	/**
 	 * 用户注册
@@ -66,7 +66,7 @@ public interface UserService {
 	 */
 	//public boolean register(User user);
 	
-	//public boolean login();
+	public Boolean login(String username, String password, Boolean remember);
 	
 	//public boolean logout();
 	
