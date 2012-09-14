@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -11,7 +12,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'loginSuccess.jsp' starting page</title>
+<title>注册</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -25,10 +26,15 @@
 </head>
 
 <body>
-	This is my JSP page.
-	<br>
-	<p align="center">
-		<font color="#000080" size="5">Login Successful</font>
-	</p>
+	<s:url var="loginUrl" action="login" namespace="user" />
+	<s:a href="%{loginUrl}">登录</s:a>
+	<br />
+	<s:form name="register_form" method="post" action="register"
+		namespace="/user">
+		<s:textfield name="email" label="Login name" />
+		<s:password name="password" label="Password" />
+		<s:password name="password1" label="Password1" />
+		<s:submit value="Register" align="center" />
+	</s:form>
 </body>
 </html>

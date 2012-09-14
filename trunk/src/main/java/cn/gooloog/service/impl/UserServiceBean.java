@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.gooloog.bean.PageBean;
 import cn.gooloog.pojo.user.User;
 import cn.gooloog.service.UserService;
-import cn.gooloog.util.MD5;
+import cn.gooloog.util.UniqId;
 
 /**
  * 业务bean
@@ -81,24 +82,41 @@ public class UserServiceBean implements UserService {
 		return pageBean;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Boolean login(String email, String password, Boolean remember) {
-		email = email.trim();
-		password = password.trim();
+	public User register(User user) {
+		user.setSalt(UniqId.getInstance().getUniqIDHashString()
+				.substring(0, 13));
+		user.setPassword(DigestUtils.md5Hex(user.getPassword() + user.getSalt()));
+		this.save(user);
 		Query query = factory
 				.getCurrentSession()
 				.createSQLQuery(
-						"SELECT password,salt FROM jt_user WHERE email=?")
-				.addEntity(User.class).setString(0, email);
+						"SELECT * FROM jt_user WHERE email=? AND password=?")
+				.addEntity(User.class);
+		query.setString(0, user.getEmail());
+		query.setString(1, user.getPassword());
+		@SuppressWarnings("unchecked")
 		List<User> users = query.list();
 		if (users.isEmpty()) {
-			return false;
+			return null;
+		} else {
+			return users.get(0);
+		}
+	}
+
+	public User login(String email, String password) {
+		Query query = factory.getCurrentSession()
+				.createSQLQuery("SELECT * FROM jt_user WHERE email=?")
+				.addEntity(User.class).setString(0, email);
+		@SuppressWarnings("unchecked")
+		List<User> users = query.list();
+		if (users.isEmpty()) {
+			return null;
 		}
 		User user = users.get(0);
-		password = MD5.MD5Encode(password + user.getSalt());
-		if (user.getPassword().equals(password)) {
-			return true;
+		if (DigestUtils.md5Hex(password + user.getSalt()).equals(
+				user.getPassword())) {
+			return user;
 		}
-		return false;
+		return null;
 	}
 }

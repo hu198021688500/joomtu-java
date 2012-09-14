@@ -64,9 +64,9 @@ public interface UserService {
 	 * @param user
 	 * @return boolean
 	 */
-	//public boolean register(User user);
+	public User register(User user);
 	
-	public Boolean login(String username, String password, Boolean remember);
+	public User login(String username, String password);
 	
 	//public boolean logout();
 	

@@ -1,4 +1,4 @@
-package cn.gooloog.action;
+package cn.gooloog.action.member;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -7,9 +7,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.neo4j.rest.graphdb.entity.RestNode;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.validator.annotations.EmailValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 import cn.gooloog.neo4j.Neo4jService;
 import cn.gooloog.pojo.user.User;
@@ -24,6 +27,8 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
 	private static Log log = LogFactory.getLog(UserAction.class);
 
+	private String email;
+
 	@Resource
 	private UserService userService;
 
@@ -32,14 +37,14 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
 	private HttpServletRequest request;
 
-	private User user;
-
-	public User getUser() {
-		return user;
+	@RequiredStringValidator(key = "email_require", shortCircuit = true, trim = true)
+	@EmailValidator(key = "email_format_error", shortCircuit = true)
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -47,14 +52,15 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 		this.request = req;
 	}
 
-	public String test() {
+	@SkipValidation
+	public String index() {
 		HttpServletRequest request1 = ServletActionContext.getRequest();
 
 		System.out.println("request1:" + request1.getParameter("uid"));
 		System.out.println("request:" + request.getParameter("uid"));
 
 		String uidStr = request.getParameter("uid");
-		Long uid = (uidStr == "" || uidStr == null) ? 1 : Long
+		Long uid = ("".equals(uidStr) || uidStr == null) ? 1 : Long
 				.parseLong(uidStr);
 
 		User user = userService.find(uid);
@@ -70,8 +76,14 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 		log.debug(user.getEmail());
 		return "success";
 	}
-	
-	public String test1(){
-		return "success";
+
+	/**
+	 * 找回密码
+	 * 
+	 * @return
+	 */
+	public String findPass() {
+		System.out.println(this.getEmail());
+		return INPUT;
 	}
 }
