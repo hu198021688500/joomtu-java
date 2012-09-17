@@ -56,14 +56,12 @@ public class LoginAction extends ActionSupport {
 	@Override
 	@Action(value = "login", results = {
 			@Result(name = "success", location = "/WEB-INF/user/loginSuccess.jsp"),
-			@Result(name = "input", location = "/WEB-INF/user/login.jsp"),
-			@Result(name = "error", location = "/WEB-INF/user/login.jsp") })
+			@Result(name = "input", location = "/WEB-INF/user/login.jsp")})
 	public String execute() throws Exception {
 		System.out.println("Validating login");
-		if (!userService.login(this.email, this.password, this.remember)) {
+		if (null == userService.login(this.email, this.password)) {
 			this.addFieldError("password", "Invalid user name or password! Please try again!");
-			//this.addActionError("Invalid user name or password! Please try again!");
-			return ERROR;
+			return INPUT;
 		} else {
 			return SUCCESS;
 		}

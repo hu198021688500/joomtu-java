@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 默认的视图主题，详细见struts.properties -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- Convention Plugin在Action中的配置改变时，可以自动加载改变的内容而不用重新启动容器 -->
+	<constant name="struts.convention.classes.reload" value="true" />
+
+	<!-- <include file="struts-default.xml" /> -->
+	
+	<package name="helloworld" namespace="/helloworld" extends="struts-default">
+		<action name="hello1" class="cn.gooloog.action.HelloWorldAction">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+		<action name="hello2" class="cn.gooloog.action.HelloWorldAction" method="test">
+			<result name="success">/helloworld.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 命名空间namespace的名字不能和action所在的包的名字相同 -->
+	<package name="user" namespace="/user" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="cn.gooloog.interceptor.AuthorityInterceptor" />
+			<interceptor-stack name="annotatedStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+   		
+        <default-action-ref name="index" />
+        <!-- 用户主页 -->
+        <action name="index" class="cn.gooloog.action.member.UserAction" method="index">
+        	<interceptor-ref name="annotatedStack" /> 
+			<result name="success">/helloworld.jsp</result>
+			<result name="login">/WEB-INF/user/login.jsp</result>
+		</action>
+		<!-- 用户注册 -->
+		<action name="register" class="cn.gooloog.action.member.RegisterAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="input">/WEB-INF/user/register.jsp</result>
+		</action>
+		<!-- 用户登录登出 -->
+		<action name="login" class="cn.gooloog.action.member.LoginAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="input">/WEB-INF/user/login.jsp</result>
+		</action>
+		<action name="logout" class="cn.gooloog.action.member.LogoutAction">
+			<result name="success" type="redirect">/index.jsp</result>
+		</action>
+		<!-- 找回密码 -->
+		<action name="getpass" class="cn.gooloog.action.member.UserAction" method="findPass">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="input">/WEB-INF/user/getpass.jsp</result>
+		</action>
+	</package>
+	
+</struts>
