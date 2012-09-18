@@ -83,7 +83,7 @@ public class AuthorityInterceptor extends AbstractInterceptor {
 			return Action.LOGIN;
 		}
 	}
-
+	
 	private String getGoingURL() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String url = request.getHeader("Referer");
