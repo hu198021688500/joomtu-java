@@ -26,7 +26,7 @@ public class LoginAction extends ActionSupport {
 
 	private String password;
 
-	private Boolean remember;
+	private Boolean remember = false;
 	
 	private String returnUrl;
 
@@ -83,10 +83,10 @@ public class LoginAction extends ActionSupport {
 			session.put(Constants.IN_SESSION_LOGIN_FLAG, true);
 			session.put("nickname", user.getNickname());
 
-			if (this.remember) {
+			if (true == this.remember) {
 				DESPlus des = new DESPlus(Constants.CRYPT_KEY);
 				Cookie cookie = new Cookie("USER_COOKIE", des.encrypt(user
-						.getEmail()) + "," + des.encrypt(user.getPassword()));
+						.getEmail()) + "," + des.encrypt(this.getPassword()));
 				cookie.setMaxAge(60 * 60 * 24 * 14);
 				response.addCookie(cookie);
 			}
